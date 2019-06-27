@@ -440,3 +440,11 @@ footer .copyright {
 .deleteIcon:hover {
   cursor: pointer;
 }
+.custom-style-pagination {
+  display: flex;
+  justify-content: center;
+}
+.custom-style-pagination-ul {
+  display: flex;
+  justify-content: space-between;
+}
