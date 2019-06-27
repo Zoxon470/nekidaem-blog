@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  backend:
+    container_name: blog-backend
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile-dev
+    restart: always
+    command: docker/django/start-dev.sh
+    env_file:
+      - docker/django/.env.local
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  rq:
+    container_name: blog-rq
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile-dev
+    command: python manage.py rqworker default
+    env_file:
+      - docker/django/.env.local
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    container_name: blog-redis
+    image: redis:5.0.4-alpine
+    restart: on-failure
+    ports:
+      - "6379"
+
+  db:
+    container_name: blog-db
+    image: postgres:12-alpine
+    restart: on-failure
+    volumes:
+      - pgdata_blog:/var/lib/postgresql/data
+    ports:
+      - "5432"
+
+volumes:
+    pgdata_blog:
