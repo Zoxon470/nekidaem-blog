@@ -57,6 +57,7 @@ $ nano .env.local # See to table environment variables
 | `DJANGO_SECRET_KEY`  | mysecretkey  | secret-key              |
 | `DJANGO_DEBUG`  | Debug mode True or False  | True              |
 | `DEFAULT_DATABASE_URL`  | postgres://user:password@host:port/database_name | postgres://postgres:postgres@db:5432/starnavi |
+| `EMAIL_HOST_PASSWORD`  | SMTP host password |      |
 | `POSTGRES_USER`  | Postgres username |   postgres   |
 | `POSTGRES_PASSWORD`  | Postgres password |  postgres    |
 | `POSTGRES_DB`  | Postgres database name | postgres |
