@@ -69,5 +69,5 @@ $ nano .env.local # See to table environment variables
 ### Run local project 
 
 ```.bash
-$ docker-compose -f dev.yml up --build
+$ docker-compose -f dev.yml up
 ```
