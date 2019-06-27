@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% endblock %}
+
+{% block header %}
+
+  <header class="masthead" style="background-image: url({% static 'img/home-bg.gif' %})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>{% trans 'My Feed' %}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for post in posts %}
+            <div class="post-preview">
+              <a href="{% url 'blog:post_detail' post.id %}">
+                <h2 class="post-title">
+                  {{ post.title }}
+                </h2>
+              </a>
+              <i class="fas fa-times float-right deleteIcon" onclick="deletePost({{ post.id }})"></i>
+              <h3 class="post-subtitle">
+                {{ post.description }}
+              </h3>
+            </div>
+            <div class="custom-flex">
+                <p class="post-meta">{% trans 'Posted by' %}
+                    <a href="#">{{ post.blog.user }}</a> {{ post.created_at }}
+                </p>
+                {% if request.user not in post.users_read.all %}
+                    <button class="btn btn-warning float-right margin-auto" onclick="postMarkAsRead(this, {{ post.id }})">{% trans 'Mark as read' %}</>
+                {% else %}
+                    <button class="btn btn-dark float-right margin-auto" disabled>{% trans 'Already read this post' %}</>
+                {% endif %}
+            </div>
+            <hr>
+        {% empty %}
+            <h3 class="text-center" style="color: #62696f;">{% trans 'You have no blog subscriptions.' %}</h>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js_scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/userHasRead.js' %}"></script>
+    <script src="{% static 'js/deletionPost.js' %}"></script>
+{% endblock %}

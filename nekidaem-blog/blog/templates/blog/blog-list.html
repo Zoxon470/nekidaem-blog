@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block header %}
+
+  <header class="masthead" style="background-image: url({% static 'img/home-bg.gif' %})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>{% trans 'Blog list' %}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for blog in blogs %}
+            <div class="post-preview">
+              <a href="{% url 'blog:blog_detail' blog.slug %}">
+                <h2 class="post-title">
+                  {{ blog.title }}
+                </h2>
+              </a>
+                  <div class="custom-flex">
+                      <h3 class="post-subtitle">
+                          {{ blog.description }}
+                      </h3>
+                  <div>
+                {%  if request.user not in blog.subscriptions.all  %}
+                    <button class="btn btn-success float-right margin-auto post-meta"
+                            onclick="userSubscription(this, {{ blog.id }}, 'subscribed')">{% trans 'Subscribe' %}</>
+                {% else %}
+                    <button class="btn btn-primary float-right margin-auto post-meta"
+                            onclick="userSubscription(this, {{ blog.id }}, 'unsubscribed')">{% trans 'Unsubscribe' %}</>
+                {% endif %}
+                  </div>
+            </div>
+            </div>
+            <hr>
+        {% empty %}
+            <h3 class="text-center" style="color: #62696f;">{% trans 'There are currently no blogs.' %}</h>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js_scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/subscriptions.js' %}"></script>
+{% endblock %}
