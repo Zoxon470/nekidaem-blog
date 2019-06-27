@@ -15,6 +15,10 @@ class PostCreateView(generic.CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            if self.request.user.is_anonymous:
+                user_not_exists = _('You must create user for creating post')
+                return render(request, self.template_name, {
+                    'form': form, 'user_not_exists': user_not_exists})
             blog = Blog.objects.filter(user=self.request.user)
             if blog:
                 post = form.save(commit=False)

@@ -9,6 +9,7 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <form action="{% url 'blog:post_create' %}" method="POST">{% csrf_token %}
+            {% if user_not_exists %}{{ user_not_exists }}{% endif %}
             {% if blog_not_exists %}{{ blog_not_exists }}{% endif %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-success">Create</button>
